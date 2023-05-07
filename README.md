@@ -54,7 +54,7 @@ There are 3 textboxes which you have to key in
 
 ## Contributing
 Contributions are welcome! Please contact me at franziss@gmail.com 
-This is still a hack over my weekend and I am sure there are bounds to have bugs... sorry.. =)
+This was a hack over my weekend and I am sure there are bounds to have bugs... sorry.. =)
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.

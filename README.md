@@ -39,7 +39,7 @@ qtg.run_gr()
 
 Go to your browser and use it, e.g.  http://127.0.0.1:7861
 
-[](Screenshot.png?raw=true)
+![Chart](Screenshot.png)
 
 There are 3 textboxes which you have to key in  
 

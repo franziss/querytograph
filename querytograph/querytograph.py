@@ -67,8 +67,10 @@ class QueryToGraph():
             prompt = PromptTemplate(
                 input_variables=["query", "columns", "err_msg"], template=_DEFAULT_TEMPLATE)    
 
-        print("--- PROMPT")
-        print(prompt)
+        print("--- Query")
+        print(query)
+        print("--- Err_msg")
+        print(err_msg)
         chain = LLMChain(llm=llm, prompt=prompt)
 
         valid_files = self.find_df(data_path, table_name)
@@ -79,24 +81,27 @@ class QueryToGraph():
             print(f'Reading file: {data_path+valid_files[0][0]}')
             df = pd.read_pickle(data_path+valid_files[0][0])            
 
-            ## Call OpenAI api to generate the codes
-            #print(prompt.format_prompt(query=query, columns=list(df.columns)).to_messages())
-            result = chain.run(query=query, columns=list(df.columns), err_msg=err_msg)
-            print('OpenAI results')
-            print(result)
+            if query != '':
+                ## Call OpenAI api to generate the codes
+                #print(prompt.format_prompt(query=query, columns=list(df.columns)).to_messages())
+                result = chain.run(query=query, columns=list(df.columns), err_msg=err_msg)
+                print('OpenAI results')
+                print(result)
 
-            global global_result
-            global_result = result
+                global global_result
+                global_result = result
 
-            # Use regular expression to extract substrings between ```
-            code_blocks = re.findall(r'```(.*?)```', result, flags=re.DOTALL)
+                # Use regular expression to extract substrings between ```
+                code_blocks = re.findall(r'```(.*?)```', result, flags=re.DOTALL)
 
-            # Print the extracted code blocks
-            print("code_blocks")
-            code_blocks1 = []
-            for code_block in code_blocks:
-                code_blocks1.append(code_block.replace('python','').strip())
-                print(code_block.replace('python','').strip())
+                # Print the extracted code blocks
+                print("code_blocks")
+                code_blocks1 = []
+                for code_block in code_blocks:
+                    code_blocks1.append(code_block.replace('python','').strip())
+                    print(code_block.replace('python','').strip())               
+            else:
+                return None, df     
         else:
             raise FileExistsError(f'No matching file for {data_path}{table_name}')
 
@@ -126,6 +131,11 @@ class QueryToGraph():
             print('HELLO')
             code_blocks1, df = self.generate_codes(query_textbox, data_path_textbox, tablename_textbox, openai_api_key, err_msg)
             #print(df)
+            table = df.tail()#.to_dict(orient='records')
+
+            if code_blocks1 is None:
+                return None, table
+                        
             globals()['df']=df
             loc = {}    
             # execute the code        
@@ -134,9 +144,9 @@ class QueryToGraph():
                 exec(code_block.strip(), globals(), loc)
             print("loc:{loc}")
             try:
-                return loc['fig'], str(list(df.columns))
+                return loc['fig'], table # str(list(df.columns))
             except:
-                return loc['figure'], str(list(df.columns))
+                return loc['figure'], table #str(list(df.columns))
         except Exception:
             print('Start recursive exception!!!')
             etype, evalue, tb = sys.exc_info()
@@ -163,10 +173,10 @@ def run_gr():
     """
     Launch a Gradio where user can input their queries
     """
-    query_textbox = gr.inputs.Textbox(label="Query")
+    query_textbox = gr.inputs.Textbox(label="Query. Click submit with empty query to show the preview of the data")
     data_path_textbox = gr.inputs.Textbox(label="Data Folder", default="./")
     tablename_textbox = gr.inputs.Textbox(label="Table Name", default="vgt")
-    output_textbox = gr.outputs.Textbox(label="Columns")
+    output_textbox = gr.Dataframe(row_count = (5, "dynamic"), col_count = (1, "dynamic"))
     #button = gr.Button(label="Display Columns")
 
     qtg = QueryToGraph()

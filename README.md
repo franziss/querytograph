@@ -45,6 +45,7 @@ There are 3 textboxes which you have to key in
 
 1. Query  
    Question by the user, which will be used to generate the graph
+   Example: "show me the highest and lowest closing price for each month"
 2. Data Folder  
    Folder which contains Pandas dataframes in csv or pkl (pickle)
 3. Table Name  

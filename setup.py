@@ -16,9 +16,10 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 setup(
     name='querytograph',
     packages=find_packages(include=['querytograph']),
-    version='0.0.1',
+    version='0.0.4',
     description='Using ChatGPT to convert your plain English queries into graphs',
     long_description=long_description,
+    url='',
     long_description_content_type='text/markdown',
     author='franziss',
     author_email='franziss@gmail.com',
@@ -29,7 +30,8 @@ setup(
         'langchain==0.0.160',
         'rapidfuzz==3.0.0',
         'gradio==3.26.0',
-        'numpy'
+        'numpy',
+        'plotly'
     ],
     setup_requires=[],
     tests_require=[]

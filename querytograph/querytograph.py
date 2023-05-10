@@ -9,6 +9,9 @@ from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 from os import listdir
 from os.path import isfile, join
+import matplotlib
+matplotlib.use('agg') # writing to file, not for rendering in a window
+
 
 class QueryToGraph():
     

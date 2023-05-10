@@ -19,7 +19,7 @@ setup(
     version='0.0.4',
     description='Using ChatGPT to convert your plain English queries into graphs',
     long_description=long_description,
-    url='',
+    url='https://github.com/franziss/querytograph',
     long_description_content_type='text/markdown',
     author='franziss',
     author_email='franziss@gmail.com',
@@ -31,7 +31,8 @@ setup(
         'rapidfuzz==3.0.0',
         'gradio==3.26.0',
         'numpy',
-        'plotly'
+        'plotly',
+        'matplotlib'
     ],
     setup_requires=[],
     tests_require=[]

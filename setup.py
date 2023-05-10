@@ -16,7 +16,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 setup(
     name='querytograph',
     packages=find_packages(include=['querytograph']),
-    version='0.0.4',
+    version='0.0.5',
     description='Using ChatGPT to convert your plain English queries into graphs',
     long_description=long_description,
     url='https://github.com/franziss/querytograph',
